@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>西邮实验室总览</title>
+	<link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="fullPage:For desktop(ie5.5+) or mobile webApp without jQuery,create full screen pages fast and simple.">
+	<meta name="keywords" content="fullPage,webApp,full screen">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css">
+	<style type="text/css">
+	body{
+		color:#fff;
+	}
+	a{
+		text-decoration: none;
+		display: inline-block;
+	}
+	.section{
+		text-align: center;
+	}
+	.section0{
+		background: url(images/xiyou5.png) 1%;
+	}	
+	#menu { margin: 0; padding: 0; position: fixed; left: 10px; top: 10px; list-style-type: none; z-index: 70;}
+	#menu li { float: left; margin:  0 10px 0 0; font-size: 14px;}
+	#menu a { float: left; padding: 10px 20px; background-color: #fff; color: #333; text-decoration: none;}
+	#menu .active a { color: #fff; background-color: #333;}
+	#page{
+		width: 80%;
+		margin: 0 auto;
+		padding: 5px;
+	}
+	
+	#label{
+		float: right;
+		width: 500px;
+		margin-top: 200px;
+		margin-right: 50px;
+	}
+	#label a{
+	padding: 0 20px;
+	float: right;
+	line-height: 28px;
+	height: 28px;
+	margin: 5px;
+	border-radius: 28px;
+	color: #ffc;
+	background-color: rgba(155,155,150,0.9)
+	}
+	.info{
+	color: #333;
+	font-size: 30px;
+	line-height: 36px;
+	margin: 30px auto;
+	width: 100%;
+	text-align: center;
+	}
+	.adr{
+	color: #666;
+	font-size: 16px;
+	margin-bottom: 10px;
+	text-align: center;
+	}
+	.desc{
+	color: #333;
+	font-size: 16px;
+	margin-bottom: 20px;
+	text-align: center;
+	}
+	.link{
+	padding: 5px 35px 5px 45px;
+	background: #fff;
+	border-radius: 30px;
+	color: #2db8ad;
+	text-align: center;
+	display: block;
+	width: 80px;
+	margin: 20px auto;
+	outline: none;
+	}
+	.info_img {
+	height: 50%;
+	width: 60%;
+	border-radius: 10px 10px 0 0;
+	margin: 0 auto;
+	z-index: 99;
+	}
+	</style>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.fullPage.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$.fn.fullpage({
+			anchors:['page','page1','page2','page3','page4','page5','page6','page7','page8','page9','page10'],
+			menu:'menu',
+			navigation: true,
+		})
+		}
+		);
+</script>
+
+</head>
+<body>
+<?php
+@ $link=mysql_connect("localhost:3307","root","725872");
+mysql_select_db("labs",$link);
+$q='select * from labs';
+mysql_query("set names utf8");
+$rsw=mysql_query($q,$link);
+$i=1;
+echo "<div  class='section section0' data-anchor='page'>
+	<div id='page'>
+		<div id='label'>";
+
+while($row = mysql_fetch_row($rsw)) 
+{
+	echo "<a href='#page$i'>$row[0]</a>";
+	$i++;
+}
+mysql_free_result($rsw); 
+
+		echo "</div>";
+
+
+	echo "</div>";
+
+
+
+
+
+
+echo "</div>";
+$qy=mysql_query("select * from labs");
+$j=1;
+while($rw=mysql_fetch_row($qy)){
+echo "<div  class='section section$j'  style='background:$rw[4]' data-anchor='page$j'><div class='info'>$rw[0]</div>";
+if($rw[1]){
+echo "<div class='adr'>$rw[2]</div><div class='desc'>$rw[3]</div><a class='link' href='http://$rw[1]' target='_blank'>访问 ></a>";
+echo "<img class='info_img' src='./images/$rw[5]'></div>";
+}
+else
+	echo "<div class='adr'>$rw[2]</div><div class='desc'>$rw[3]</div><img class='info_img' src='./images/$rw[5]'></div>";
+}
+?>
+</body>
+</html>
